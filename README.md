@@ -48,3 +48,7 @@ For local clean URLs, use a static server that supports directory index files. T
 ## Honest feature and legal boundaries
 
 The site describes documented launcher features. Microsoft authentication, Modrinth content, Discord Rich Presence and any supported skin provider remain third-party integrations. Local skin files are not automatically public. A local profile does not bypass premium-authentication requirements on servers. The current installer is documented as unsigned; do not ask users to disable Windows security features.
+
+## Brand assets
+
+The supplied pixel-art eclipse mark is used in `public/assets/ec-logo.png`, `public/assets/og-eclipse.png`, and `public/assets/favicon.ico`. All website navigation/footer logo instances use the same asset.
