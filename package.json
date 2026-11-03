@@ -1,0 +1,10 @@
+{
+  "name": "eclipse-client-website",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Premium official website for Eclipse Client Launcher. Static and ready for Vercel.",
+  "scripts": {
+    "dev": "node server.mjs",
+    "start": "node server.mjs"
+  }
+}
