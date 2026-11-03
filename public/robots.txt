@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://eclipsesite-beige.vercel.app/sitemap.xml
