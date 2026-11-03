@@ -1,0 +1,4 @@
+The actual installer is not included in this website ZIP.
+Build it using Eclipse-Client-Launcher-Setup-Builder-0.7.1.zip.
+Expected output: dist\Eclipse-Client-Setup-0.7.1-x64.exe
+Then publish that EXE as a GitHub Release asset. See ADD-SETUP-TO-WEBSITE.md.
