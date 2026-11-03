@@ -1,48 +1,50 @@
-# Eclipse Client Website — Static Vercel Deployment
+# Eclipse Client Website — Luxury Static Vercel Edition
 
-This package is a **static-only** version of the Eclipse Client website. It contains no Node server, no API routes, no serverless functions, and no package manager scripts.
+A multi-page, responsive website for Eclipse Client. The design uses the real EC logo supplied with the launcher and CSS-built interface illustrations. There are **no stock photos, AI-generated images, remote image embeds, backend APIs, or serverless functions**.
 
-## Correct Vercel settings
+## Routes
 
-The included `vercel.json` enforces:
+- `/home` — homepage (the root `/` redirects here)
+- `/features` — launcher features
+- `/launcher` — interface overview
+- `/download` — Windows installer
+- `/requirements` — system and installation requirements
+- `/faq` — frequently asked questions
+- `/release-notes` — current release information
+- `/support` — support and guidance
+- `/privacy` — privacy notice
+- `/terms` — terms of use
 
-- Framework: **Other** (`framework: null`)
-- Build command: **None** (`buildCommand: null`)
-- Install command: **None** (`installCommand: ""`)
-- Output directory: **`public`**
-- No API directory and no Vercel Functions
+Each route is a static directory with its own `index.html`, so the endpoints remain readable and shareable. Shared CSS, JavaScript and the EC logo are served from `/styles.css`, `/app.js` and `/assets/`.
 
-## Deploy to the existing Vercel project
+## Installer connection
+
+`public/config.js` currently points to:
+
+`https://github.com/abdukhan42121-bot/eclipsesite/releases/download/v0.7.1/Eclipse-Client-Setup-0.7.1-x64.exe`
+
+The GitHub Release must contain an uploaded asset with this exact filename under tag `v0.7.1`. GitHub's automatically generated "Source code" archives are not the installer. If you use a different tag or filename, update `windowsDownloadUrl`, `downloadFileName` and `launcherVersion` in `public/config.js`.
+
+## Deploy to Vercel
 
 1. Extract this ZIP.
-2. Upload the **contents of this extracted folder** to the root of the GitHub repository connected to `eclipsesite-beige.vercel.app`.
-3. Replace the old `vercel.json` with this one.
-4. Delete obsolete root-level `package.json` and `server.mjs` from the GitHub repository if they are still present. Also remove any `api/` or `src/api/` directory if one was added for this static website. Do not delete the files inside `public/`.
-5. Confirm `vercel.json` is at the repository root and `public/index.html` exists.
-6. Commit to the production branch (`main`). Vercel should create a new production deployment.
+2. Upload the **contents** of this folder to the root of the GitHub repository connected to `eclipsesite-beige.vercel.app`, replacing old website files.
+3. Remove obsolete root-level `package.json`, `server.mjs`, `api/`, or other server runtime files if they are still present. This project is static-only.
+4. In Vercel Project Settings → Build & Deployment use Framework Preset `Other`, Root Directory `.`, leave Build Command empty/disabled, Install Command empty/disabled, and set Output Directory to `public`.
+5. Commit to the production branch (for example `main`) and let Vercel deploy.
 
-If you need to confirm Dashboard settings, open Project → Settings → Build and Deployment:
+No Node.js build, install command, environment variable, database or API endpoint is required for the website itself.
 
-- Framework Preset: **Other**
-- Root Directory: `.`
-- Build Command: leave blank / disabled
-- Install Command: leave blank / disabled
-- Output Directory: `public`
+## Local preview
 
-The file-based settings above should take precedence for the new deployment, but the Dashboard values should match.
+From the project root, run a static server from `public`, for example:
 
-## Verify the deployment
+```bash
+npx serve public
+```
 
-After the new deployment is Ready, open:
+For local clean URLs, use a static server that supports directory index files. The production Vercel project uses `public` as its output directory.
 
-- `/` — homepage
-- `/download` — download page
-- `/privacy` — privacy page
-- `/terms` — terms page
-- `/assets/ec-logo.png` — EC logo asset
+## Honest feature and legal boundaries
 
-A static-only deployment should serve these as static files and should not need any Function Invocations for ordinary page loads. If the deployment still reports Function Invocations, inspect Project → Logs → Runtime Logs and share the first error message; it means the project still has a function/server configuration outside this package or the deployment did not use this root.
-
-## Configure the real Windows installer
-
-Edit `public/config.js` and set `windowsDownloadUrl` only after the actual Windows installer is uploaded to a stable release URL. Do not link the launcher source ZIP as an installer.
+The site describes documented launcher features. Microsoft authentication, Modrinth content, Discord Rich Presence and any supported skin provider remain third-party integrations. Local skin files are not automatically public. A local profile does not bypass premium-authentication requirements on servers. The current installer is documented as unsigned; do not ask users to disable Windows security features.

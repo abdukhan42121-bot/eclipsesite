@@ -1,7 +1,15 @@
-# Fixing the Eclipse Vercel 500 deployment
+# Vercel deployment checklist
 
-The prior project was a static HTML/CSS/JS website but also contained a custom Node HTTP server and Node start scripts. This replacement removes that runtime layer and serves only the contents of `public/` as static files.
+- [ ] Upload this folder's contents to the repository root.
+- [ ] Ensure `vercel.json` is at repository root.
+- [ ] Ensure `public/home/index.html` and the other route directories exist.
+- [ ] Remove old `package.json`, `server.mjs`, `api/` and server functions.
+- [ ] Framework Preset: Other.
+- [ ] Root Directory: `.`.
+- [ ] Build Command: blank/disabled.
+- [ ] Install Command: blank/disabled.
+- [ ] Output Directory: `public`.
+- [ ] Check `/home`, `/features`, `/launcher`, `/download`, `/requirements`, `/faq`, `/release-notes`, `/support`, `/privacy`, `/terms`.
+- [ ] Confirm the GitHub Release includes the exact Setup EXE filename configured in `public/config.js`.
 
-The Vercel dashboard screenshot showed 5 Function Invocations and a 100% error rate. Ordinary requests to this static site should not invoke serverless functions. This package explicitly selects the Other framework, disables build/install commands, outputs `public/`, and includes no server or API files.
-
-Follow `README.md` → “Deploy to the existing Vercel project”. If the domain still returns 500 after this commit is deployed, open Runtime Logs for the new deployment and share the first error. Also confirm the new deployment is attached to `eclipsesite-beige.vercel.app` under Domains.
+The site is static-only: normal page loads do not require serverless function invocations.
