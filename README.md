@@ -1,54 +1,40 @@
-# Eclipse Client Website — Luxury Static Vercel Edition
+# Eclipse Client Website — Inferno Release Archive Edition
 
-A multi-page, responsive website for Eclipse Client. The design uses the real EC logo supplied with the launcher and CSS-built interface illustrations. There are **no stock photos, AI-generated images, remote image embeds, backend APIs, or serverless functions**.
+A static multi-page Vercel website using the Eclipse Inferno visual identity: obsidian black, burnt orange, vermilion red and warm titanium. No stock photography, AI-generated images, remote image embeds, backend APIs or serverless functions. Visuals are CSS-built and use the supplied EC pixel-art eclipse logo.
 
 ## Routes
 
-- `/home` — homepage (the root `/` redirects here)
-- `/features` — launcher features
-- `/launcher` — interface overview
-- `/download` — Windows installer
-- `/requirements` — system and installation requirements
+- `/` redirects to `/home`
+- `/home` — Inferno landing page
+- `/features` — feature overview
+- `/launcher` — launcher interface showcase
+- `/releases` — live release archive; latest stable release first, previous releases and version tags below
+- `/versions` — redirect to `/releases`
+- `/download` — current installer and release-archive link
+- `/requirements` — system requirements
 - `/faq` — frequently asked questions
-- `/release-notes` — current release information
-- `/support` — support and guidance
-- `/privacy` — privacy notice
-- `/terms` — terms of use
+- `/support` — support information
+- `/release-notes` — feature notes
+- `/privacy` and `/terms` — policies
 
-Each route is a static directory with its own `index.html`, so the endpoints remain readable and shareable. Shared CSS, JavaScript and the EC logo are served from `/styles.css`, `/app.js` and `/assets/`.
+## Live version archive
 
-## Installer connection
+`/releases` reads all published releases from the public GitHub Releases API and version-like Git tags from the public repository Tags API (up to 1,000 entries per endpoint, 100 per page). The official latest stable release is featured first. Every other published release and every additional version-like tag appears in the searchable archive. Published release entries link to their real attached assets; source-only tags are clearly labelled and link to the source archive/tag page instead of showing a made-up installer.
 
-`public/config.js` currently points to:
+GitHub's List Releases endpoint excludes regular Git tags that do not have a Release, which is why the page separately reads the repository Tags endpoint. See [GitHub Releases API](https://docs.github.com/en/rest/releases/releases) and [Repository Tags API](https://docs.github.com/en/rest/repos/repos#list-repository-tags).
 
-`https://github.com/abdukhan42121-bot/eclipsesite/releases/download/v0.7.1/Eclipse-Client-Setup-0.7.1-x64.exe`
+Update repository settings in `public/config.js` if the owner or repository changes. The public endpoint currently targets `abdukhan42121-bot/eclipsesite`.
 
-The GitHub Release must contain an uploaded asset with this exact filename under tag `v0.7.1`. GitHub's automatically generated "Source code" archives are not the installer. If you use a different tag or filename, update `windowsDownloadUrl`, `downloadFileName` and `launcherVersion` in `public/config.js`.
+## Installer
+
+The pinned fallback remains `v0.7.1` and expects `Eclipse-Client-Setup-0.7.1-x64.exe`. When GitHub has a newer published stable release with an `.exe` attachment, the version badges and download button resolve to that actual release. Historical release rows only show an installer button when an actual `.exe` asset exists.
 
 ## Deploy to Vercel
 
-1. Extract this ZIP.
-2. Upload the **contents** of this folder to the root of the GitHub repository connected to `eclipsesite-beige.vercel.app`, replacing old website files.
-3. Remove obsolete root-level `package.json`, `server.mjs`, `api/`, or other server runtime files if they are still present. This project is static-only.
-4. In Vercel Project Settings → Build & Deployment use Framework Preset `Other`, Root Directory `.`, leave Build Command empty/disabled, Install Command empty/disabled, and set Output Directory to `public`.
-5. Commit to the production branch (for example `main`) and let Vercel deploy.
+1. Upload the contents of this project to the repository root.
+2. In Vercel choose Framework Preset `Other`, Root Directory `.`, no Build Command, no Install Command, Output Directory `public`.
+3. Deploy the production branch. There are no runtime functions, Node server, package installation or environment variables required.
 
-No Node.js build, install command, environment variable, database or API endpoint is required for the website itself.
+## Validation
 
-## Local preview
-
-From the project root, run a static server from `public`, for example:
-
-```bash
-npx serve public
-```
-
-For local clean URLs, use a static server that supports directory index files. The production Vercel project uses `public` as its output directory.
-
-## Honest feature and legal boundaries
-
-The site describes documented launcher features. Microsoft authentication, Modrinth content, Discord Rich Presence and any supported skin provider remain third-party integrations. Local skin files are not automatically public. A local profile does not bypass premium-authentication requirements on servers. The current installer is documented as unsigned; do not ask users to disable Windows security features.
-
-## Brand assets
-
-The supplied pixel-art eclipse mark is used in `public/assets/ec-logo.png`, `public/assets/og-eclipse.png`, and `public/assets/favicon.ico`. All website navigation/footer logo instances use the same asset.
+Static HTML/CSS/JS. The release history is fetched client-side from GitHub's public Releases and Tags APIs. Actual release data and attached files come from the repository; old versions are never hard-coded or fabricated.

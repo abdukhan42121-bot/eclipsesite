@@ -8,6 +8,11 @@
   "trailingSlash": false,
   "redirects": [
     {
+      "source": "/versions",
+      "destination": "/releases",
+      "permanent": true
+    },
+    {
       "source": "/",
       "destination": "/home",
       "permanent": false

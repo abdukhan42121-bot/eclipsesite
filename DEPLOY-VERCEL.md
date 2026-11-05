@@ -1,15 +1,11 @@
-# Vercel deployment checklist
+# Deploy Eclipse Inferno Website
 
-- [ ] Upload this folder's contents to the repository root.
-- [ ] Ensure `vercel.json` is at repository root.
-- [ ] Ensure `public/home/index.html` and the other route directories exist.
-- [ ] Remove old `package.json`, `server.mjs`, `api/` and server functions.
-- [ ] Framework Preset: Other.
-- [ ] Root Directory: `.`.
-- [ ] Build Command: blank/disabled.
-- [ ] Install Command: blank/disabled.
-- [ ] Output Directory: `public`.
-- [ ] Check `/home`, `/features`, `/launcher`, `/download`, `/requirements`, `/faq`, `/release-notes`, `/support`, `/privacy`, `/terms`.
-- [ ] Confirm the GitHub Release includes the exact Setup EXE filename configured in `public/config.js`.
+- Framework Preset: `Other`
+- Root Directory: `.`
+- Build Command: leave empty/disabled
+- Install Command: leave empty/disabled
+- Output Directory: `public`
 
-The site is static-only: normal page loads do not require serverless function invocations.
+Commit the project root to the connected production branch. This is a static site with no serverless functions. `vercel.json` contains the `/` to `/home` and `/versions` to `/releases` redirects.
+
+The `/releases` page queries the public GitHub Releases API and Tags API at runtime. It features the latest stable release first, then lists every other published release and version-like source tag. Installer links appear only for releases with real `.exe` assets. If GitHub's API is temporarily unavailable or rate-limited, the page shows the configured current version fallback and links to the official GitHub Releases page.
