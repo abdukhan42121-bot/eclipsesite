@@ -1,40 +1,44 @@
-# Eclipse Client Website — Inferno Release Archive Edition
+# Eclipse Client Website — Inferno · Live 1.0.0 Release Feed
 
-A static multi-page Vercel website using the Eclipse Inferno visual identity: obsidian black, burnt orange, vermilion red and warm titanium. No stock photography, AI-generated images, remote image embeds, backend APIs or serverless functions. Visuals are CSS-built and use the supplied EC pixel-art eclipse logo.
+This is the static Vercel website project for Eclipse Client.
 
-## Routes
+## Live release connection
 
-- `/` redirects to `/home`
-- `/home` — Inferno landing page
-- `/features` — feature overview
-- `/launcher` — launcher interface showcase
-- `/releases` — live release archive; latest stable release first, previous releases and version tags below
-- `/versions` — redirect to `/releases`
-- `/download` — current installer and release-archive link
-- `/requirements` — system requirements
-- `/faq` — frequently asked questions
-- `/support` — support information
-- `/release-notes` — feature notes
-- `/privacy` and `/terms` — policies
+The `/releases` page fetches published release records from the **public distribution repository** `abdukhan42121-bot/eclipsesite`:
 
-## Live version archive
+- Latest stable GitHub Release is featured at the top.
+- Other published releases appear in the searchable Previous Versions archive.
+- Installer buttons are generated only from actual `.exe` assets attached to each release.
+- `latest.yml` and other attached files are linked directly from the matching GitHub release.
+- Version badges and the download link across the site update from the latest stable release feed.
 
-`/releases` reads all published releases from the public GitHub Releases API and version-like Git tags from the public repository Tags API (up to 1,000 entries per endpoint, 100 per page). The official latest stable release is featured first. Every other published release and every additional version-like tag appears in the searchable archive. Published release entries link to their real attached assets; source-only tags are clearly labelled and link to the source archive/tag page instead of showing a made-up installer.
+The launcher source repository `abdukhan42121-bot/eclipse-client-launcher` is private. The website intentionally does not fetch from it because visitors cannot access private GitHub release APIs or private assets. Keep source code private and publish only the installer/update metadata to the public `eclipsesite` repository.
 
-GitHub's List Releases endpoint excludes regular Git tags that do not have a Release, which is why the page separately reads the repository Tags endpoint. See [GitHub Releases API](https://docs.github.com/en/rest/releases/releases) and [Repository Tags API](https://docs.github.com/en/rest/repos/repos#list-repository-tags).
+## Release publishing requirement
 
-Update repository settings in `public/config.js` if the owner or repository changes. The public endpoint currently targets `abdukhan42121-bot/eclipsesite`.
+In the launcher repository, configure Electron Builder's GitHub publisher target as:
 
-## Installer
+```json
+"publish": [
+  {
+    "provider": "github",
+    "owner": "abdukhan42121-bot",
+    "repo": "eclipsesite",
+    "releaseType": "release"
+  }
+]
+```
 
-The pinned fallback remains `v0.7.1` and expects `Eclipse-Client-Setup-0.7.1-x64.exe`. When GitHub has a newer published stable release with an `.exe` attachment, the version badges and download button resolve to that actual release. Historical release rows only show an installer button when an actual `.exe` asset exists.
+The launcher repository's Actions workflow must set `GH_TOKEN` to a fine-grained personal access token secret named `WEBSITE_RELEASE_TOKEN`. That token should be restricted to the `eclipsesite` repository and have **Contents: Read and write** permission. Do not put the token in source code or the website. The workflow's existing `contents: write` permission is not a substitute for this token when publishing to a different repository.
 
-## Deploy to Vercel
+Once a release with tag `v1.0.0` and the installer asset `Eclipse-Client-Setup-1.0.0-x64.exe` has been published to `eclipsesite`, the site will feature it automatically. Future stable releases published there will automatically move to the top, and the previous stable releases will move into the archive. Draft releases are not shown publicly.
 
-1. Upload the contents of this project to the repository root.
-2. In Vercel choose Framework Preset `Other`, Root Directory `.`, no Build Command, no Install Command, Output Directory `public`.
-3. Deploy the production branch. There are no runtime functions, Node server, package installation or environment variables required.
+## Deploy
 
-## Validation
+1. Replace the website repository's files with the contents of this project (preserve the existing repository structure).
+2. Commit and push to the Vercel-connected `main` branch.
+3. Vercel should redeploy automatically. The project uses Framework Preset `Other`, no build/install command, and `public` as the output directory.
 
-Static HTML/CSS/JS. The release history is fetched client-side from GitHub's public Releases and Tags APIs. Actual release data and attached files come from the repository; old versions are never hard-coded or fabricated.
+## Site URL
+
+https://eclipsesite-beige.vercel.app

@@ -1,6 +1,6 @@
 (() => {
   const cfg = window.ECLIPSE_SITE_CONFIG || {};
-  const version = cfg.launcherVersion || '0.7.1';
+  const version = cfg.launcherVersion || '1.0.0';
   document.querySelectorAll('[data-version]').forEach(el => el.textContent = `v${version}`);
   document.querySelectorAll('[data-release-channel]').forEach(el => el.textContent = cfg.releaseChannel || 'PUBLIC RELEASE');
   document.querySelectorAll('[data-download-file]').forEach(el => el.textContent = cfg.downloadFileName || 'Windows x64 installer');
@@ -77,7 +77,7 @@
   const latestApi = cfg.githubLatestReleaseApi || '';
   const tagsApi = cfg.githubTagsApi || '';
   const repoSlug = `${cfg.githubOwner || 'abdukhan42121-bot'}/${cfg.githubRepo || 'eclipsesite'}`;
-  const releaseCacheKey = 'eclipse-client-release-archive-v1';
+  const releaseCacheKey = 'eclipse-client-release-archive-v2';
   const releaseRoot = document.querySelector('[data-release-archive]');
   const releaseFeatured = document.querySelector('[data-release-featured]');
   const releaseList = document.querySelector('[data-release-list]');
@@ -183,13 +183,13 @@
       cachedReleases=[latest,...ordered];
       if (releaseFeatured) releaseFeatured.innerHTML=releaseCard(latest,true);
       if (releaseList) renderArchive();
-      const latestVersion = latest.tag_name || cfg.launcherVersion || '0.7.1';
+      const latestVersion = latest.tag_name || cfg.launcherVersion || '1.0.0';
       document.querySelectorAll('[data-version]').forEach(el=>el.textContent=`v${latestVersion}`);
       document.querySelectorAll('[data-live-latest-download]').forEach(el=>{const asset=getInstaller(latest); if(asset){el.href=asset.browser_download_url;el.classList.remove('is-disabled');el.removeAttribute('aria-disabled');}});
       if (releaseCount) releaseCount.textContent=`${ordered.length} OLDER VERSION${ordered.length===1?'':'S'}`;
       document.querySelectorAll('[data-latest-release-title]').forEach(el=>el.textContent=latest.name||latest.tag_name);
     } catch(error) {
-      if (releaseFeatured) releaseFeatured.innerHTML=`<article class="latest-release"><div><div class="release-flag">CURRENT WEBSITE FALLBACK</div><h2>Eclipse Client ${safeText(cfg.launcherVersion || '0.7.1')}</h2><div class="release-meta"><span>v${safeText(cfg.launcherVersion || '0.7.1')}</span><span>WINDOWS x64</span></div><p>The live release feed is temporarily unavailable. Open GitHub to browse the verified release history.</p></div><div class="latest-release-actions"><a class="button button-primary" href="${safeText(cfg.windowsDownloadUrl || '#')}">Download current Setup ↗</a><a class="button button-outline" href="${githubReleasesPage}" rel="noopener">View all releases</a></div></article>`;
+      if (releaseFeatured) releaseFeatured.innerHTML=`<article class="latest-release"><div><div class="release-flag">CURRENT WEBSITE FALLBACK</div><h2>Eclipse Client ${safeText(cfg.launcherVersion || '1.0.0')}</h2><div class="release-meta"><span>v${safeText(cfg.launcherVersion || '1.0.0')}</span><span>WINDOWS x64</span></div><p>The live release feed is temporarily unavailable. Open GitHub to browse the verified release history.</p></div><div class="latest-release-actions"><a class="button button-primary" href="${safeText(cfg.windowsDownloadUrl || '#')}">Download current Setup ↗</a><a class="button button-outline" href="${githubReleasesPage}" rel="noopener">View all releases</a></div></article>`;
       if (releaseList) releaseList.innerHTML=`<div class="release-empty">Live version history is temporarily unavailable. <a class="release-note-link" href="${githubReleasesPage}" rel="noopener">Browse every published version on GitHub ↗</a></div>`;
       if (releaseCount) releaseCount.textContent='LIVE ARCHIVE UNAVAILABLE';
     }

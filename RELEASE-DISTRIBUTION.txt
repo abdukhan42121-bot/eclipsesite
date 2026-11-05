@@ -1,0 +1,18 @@
+ECLIPSE CLIENT RELEASE DISTRIBUTION
+
+The launcher source repository is private: abdukhan42121-bot/eclipse-client-launcher.
+The public website and public release-asset repository is: abdukhan42121-bot/eclipsesite.
+
+The website reads only the public eclipsesite Releases and Tags APIs. To keep the launcher source private, the Windows release workflow must publish the EXE and latest.yml to eclipsesite.
+
+Launcher package.json publisher target:
+  owner: abdukhan42121-bot
+  repo: eclipsesite
+
+Launcher GitHub Actions secret:
+  WEBSITE_RELEASE_TOKEN = fine-grained PAT restricted to eclipsesite, Contents read/write
+
+Workflow build step environment:
+  GH_TOKEN: ${{ secrets.WEBSITE_RELEASE_TOKEN }}
+
+Never paste the token into chat, commit it, or place it in website/public files.
